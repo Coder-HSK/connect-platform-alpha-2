@@ -7,4 +7,4 @@ Alpha 2
 - Hitendra Annavarapu
 - Imadi Ibrahhim
 - Quin Curry
-- TBD
+- Charan Suguri
