@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account | CONNEX</title>
+  <link rel="stylesheet" href="Style1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+  <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="#connex" class="logo">CONNEX</a></h1>
+
+            </div>
+            <ul class="nav-links">
+              <li><a href="Recruiter-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="#about" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+    </div>
+  </header>
+ <main>
+    <div class="account-container">
+      <img src="image/Recruiter.jpg" alt="Profile Picture" class="profile-avatar">
+      <div class="account-title" id="recruiterNameDisplay">Recruiter Name</div>
+      <div class="account-info">
+        <label>Email:</label>
+        <p id="recruiterEmailDisplay">recruiter@email.com</p>
+        <label>Company:</label>
+        <p id="companyNameDisplay">Company Name</p>
+        <label>Position:</label>
+        <p id="recruiterPositionDisplay">Recruiter Position</p>
+        <label>Industry:</label>
+        <p id="industryDisplay">Industry</p>
+        <label>Company Size:</label>
+        <p id="companySizeDisplay">Company Size</p>
+      </div>
+      <div class="account-btns">
+        <button class="account-btn">Edit Account</button>
+        <button class="account-btn">Change Password</button>
+        <button class="account-btn" onclick="window.location.href='sign-in.html'">Sign Out</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    &copy; 2025 CONNEX. All rights reserved.
+  </footer>
+ <script>
+    document.getElementById("recruiterNameDisplay").innerText = localStorage.getItem('recruiterName') || "Recruiter Name";
+    document.getElementById("recruiterEmailDisplay").innerText = localStorage.getItem('recruiterEmail') || "recruiter@email.com";
+    document.getElementById("companyNameDisplay").innerText = localStorage.getItem('companyName') || "Company Name";
+    document.getElementById("recruiterPositionDisplay").innerText = localStorage.getItem('recruiterPosition') || "Recruiter Position";
+    document.getElementById("industryDisplay").innerText = localStorage.getItem('industry') || "Industry";
+    document.getElementById("companySizeDisplay").innerText = localStorage.getItem('companySize') || "Company Size";
+  </script>
+</body>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CONNEX</h3>
+                    <p>Building bridges between students and professionals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Project by:</h4>
+                    <ul>
+                        <li>Hitendra Annavarapu</li>
+                        <li>Mahadi Ibrahim</li>
+                        <li>Quin Curry</li>
+                        <li>Charan Suguri</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</html>
+
+ 
+ 

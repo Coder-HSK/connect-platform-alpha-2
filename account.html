@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account | CONNEX</title>
+  <link rel="stylesheet" href="Style1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+  <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="#connex" class="logo">CONNEX</a></h1>
+
+            </div>
+            <ul class="nav-links">
+              <li><a href="Student-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="#about" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+    </div>
+  </header>
+  <main>
+    <div class="account-container">
+      <img src="image/Student.jpg" alt="Profile Picture" class="profile-avatar">
+      <div class="account-title" id="studentNameDisplay">Student Name</div>
+      <div class="account-info">
+        <label>Email:</label>
+        <p id="studentEmailDisplay">student@email.com</p>
+        <label>Major:</label>
+        <p id="studentMajorDisplay">Computer Science</p>
+        <label>Year:</label>
+        <p id="studentYearDisplay">Third Year</p>
+        <label>Skills/Interests:</label>
+        <p id="studentSkillsDisplay">Python, Teamwork, AI</p>
+      </div>
+      <div class="account-btns">
+        <button class="account-btn">Edit Account</button>
+        <button class="account-btn">Change Password</button>
+        <button class="account-btn" onclick="window.location.href='sign-in.html'">Sign Out</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    &copy; 2025 CONNEX. All rights reserved.
+  </footer>
+  <script>
+    // Demo: You could fill these fields with localStorage or real data.
+    document.getElementById("studentNameDisplay").innerText = localStorage.getItem('studentName') || "Student Name";
+    document.getElementById("studentEmailDisplay").innerText = localStorage.getItem('studentEmail') || "student@email.com";
+    document.getElementById("studentMajorDisplay").innerText = localStorage.getItem('studentMajor') || "Computer Science";
+    document.getElementById("studentYearDisplay").innerText = localStorage.getItem('studentYear') || "Third Year";
+    document.getElementById("studentSkillsDisplay").innerText = localStorage.getItem('studentSkills') || "Python, Teamwork, AI";
+  </script>
+</body>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CONNEX</h3>
+                    <p>Building bridges between students and professionals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Project by:</h4>
+                    <ul>
+                        <li>Hitendra Annavarapu</li>
+                        <li>Mahadi Ibrahim</li>
+                        <li>Quin Curry</li>
+                        <li>Charan Suguri</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</html>

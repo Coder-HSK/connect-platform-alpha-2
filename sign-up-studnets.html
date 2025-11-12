@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up | CONNEX</title>
+  <link rel="stylesheet" href="Style1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="sign-bg">
+ <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="#connex" class="logo">CONNEX</a></h1>
+
+            </div>
+            <ul class="nav-links">
+              <li><a href="IED Project CONNEX.html" class="btnk-primary">Home</a></li>
+              <li><a href="#about" class="btnk-primary">About</a></li>
+              <li><a href="#how-it-works" class="btnk-primary">How It Works</a></li>
+              <li><a href="#contact" class="btnk-primary">Contact</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="sign-in.html" class="btn-primary">Sign In</a>
+            </div>
+        </div>
+    </nav>
+  <main>
+    <div class="sign-in-main">
+      <form class="sign-in-form" action="student-dashboard.html" method="get" autocomplete="off">
+        <h1>Student Sign Up<a href="Student-dashboard.html"></a></h1>
+        <div class="form-group">
+          <label for="fullname">Full Name<span>*</span></label>
+          <input type="text" id="fullname" name="fullname" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email<span>*</span></label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password<span>*</span></label>
+          <input type="password" id="password" name="password" required minlength="6" placeholder="Create a password">
+        </div>
+        <div class="form-group">
+          <label for="major">Major/Field of Study<span>*</span></label>
+          <input type="text" id="major" name="major" required placeholder="e.g. Computer Science">
+        </div>
+        <div class="form-group">
+          <label for="year">Year of Study</label>
+          <select id="year" name="year">
+            <option value="">Select...</option>
+            <option value="1">First Year</option>
+            <option value="2">Second Year</option>
+            <option value="3">Third Year</option>
+            <option value="4">Fourth Year</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="skills">Skills/Interests (comma-separated)</label>
+          <input type="text" id="skills" name="skills" placeholder="e.g. Python, Teamwork, Leadership">
+        </div>
+        <button type="submit" class="sign-btn">Sign Up</button>
+        <div class="alt-link">
+          Already have an account? <a href="sign-in.html">Sign In</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  <footer>
+    &copy;                                                 
+    &copy;              
+    &copy;
+  </footer>
+
+</body>
+ <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CONNEX</h3>
+                    <p>Building bridges between students and professionals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>Email: info@connectplatform.com</li>
+                        <li>Phone: (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.querySelector('.sign-in-form');
+    signupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      localStorage.setItem('studentName', document.getElementById('fullname').value);
+      localStorage.setItem('studentEmail', document.getElementById('email').value);
+      localStorage.setItem('studentMajor', document.getElementById('major').value);
+      localStorage.setItem('studentYear', document.getElementById('year') ? document.getElementById('year').value : "");
+      localStorage.setItem('studentSkills', document.getElementById('skills').value);
+      window.location.href = "Student-dashboard.html";
+    });
+  });
+</script>
+
