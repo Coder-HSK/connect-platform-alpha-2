@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses & Progress | CONNEX</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- CSS Reset --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* --- Base & Theme Background --- */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a192f;
+      background-image:
+        radial-gradient(circle at 15% 25%, rgba(42, 92, 199, 0.3) 0%, rgba(42, 92, 199, 0) 40%),
+        radial-gradient(circle at 85% 75%, rgba(42, 92, 199, 0.3) 0%, rgba(42, 92, 199, 0) 40%),
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 10px 10px;
+      background-attachment: fixed;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* --- Navbar (Themed) --- */
+    .navbar {
+      background: rgba(10, 25, 47, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .logo h1 {
+      margin: 0;
+    }
+
+    .logo a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .btn-primary {
+      background-color: #007aff;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    
+    .sign-btn {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background-color: #007aff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+    .sign-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* --- Main Container & Hero --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .dashboard-hero {
+      text-align: center;
+      padding: 2.5rem 0;
+    }
+
+    .dashboard-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-tagline {
+      font-size: 1.1rem;
+      color: #c5c5c5;
+      font-weight: 400;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(0, 122, 255, 0.5);
+    }
+
+    /* --- Course Grid Styles --- */
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .course-card {
+      /* Glassmorphism */
+      background: rgba(25, 41, 70, 0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      overflow: hidden; /* To keep image corners rounded */
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-5px);
+        background: rgba(25, 41, 70, 0.6);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .course-card-image {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+    }
+    
+    .course-card-content {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Makes card full height */
+    }
+    
+    .course-card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+    }
+    
+    .course-card-desc {
+        font-size: 0.9rem;
+        color: #c5c5c5;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        flex-grow: 1; /* Pushes content below it to the bottom */
+    }
+    
+    .course-card-tags {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .course-card-tag {
+        background-color: rgba(0, 122, 255, 0.2);
+        color: #ade8ff;
+        padding: 0.25rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .course-card-tag.paid {
+        background-color: rgba(255, 180, 0, 0.2);
+        color: #fff09c;
+    }
+    
+    .course-card-tag.completed {
+        background-color: rgba(40, 200, 100, 0.2);
+        color: #a0ffc5;
+    }
+    
+    .course-card-author {
+        font-size: 0.9rem;
+        color: #a0a0a0;
+    }
+
+    /* --- Progress Bar Styles --- */
+    .progress-bar-container {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 25px;
+        height: 10px;
+        margin-bottom: 0.5rem;
+        overflow: hidden; /* Ensure fill stays inside */
+    }
+    
+    .progress-bar-fill {
+        height: 100%;
+        background-color: #007aff;
+        border-radius: 25px;
+        transition: width 0.5s ease-in-out;
+    }
+    
+    .progress-text {
+        font-size: 0.8rem;
+        color: #a0a0a0;
+    }
+
+    /* --- Footer (Themed) --- */
+    .footer {
+      margin-top: 3rem;
+      padding: 2rem 0;
+      background: rgba(10, 25, 47, 0.3);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      color: #c5c5c5;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer-section h3, .footer-section h4 {
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+    .footer-section p {
+      max-width: 300px;
+    }
+    .footer-section ul {
+      list-style: none;
+    }
+    .footer-section li {
+      margin-bottom: 0.5rem;
+    }
+    .footer-section a {
+      color: #c5c5c5;
+      text-decoration: none;
+    }
+    .footer-section a:hover {
+      color: #ffffff;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* --- Responsive (Mobile) --- */
+    @media (max-width: 768px) {
+      .navbar .container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .nav-links {
+        justify-content: center;
+      }
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-section p {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="logo">
+        <h1><a href="Student-dashboard.html" class="logo">CONNEX</a></h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="Student-dashboard.html">Home</a></li>
+        <li><a href="#premium">Premium</a></li>
+      </ul>
+      <div class="cta-button">
+        <a href="account.html" class="btn-primary">Account</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="dashboard-hero">
+      <div class="container">
+        <h1 class="dashboard-title">Courses & Progress</h1>
+        <p class="dashboard-tagline">Take free/paid courses and track your learning and completion.</p>
+      </div>
+    </section>
+
+    <div class="container">
+    
+      <!-- Section: In Progress -->
+      <h2 class="section-title">In Progress</h2>
+      <div class="course-grid">
+        <!-- Course 1: In Progress -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=Python" alt="Course Image" class="course-card-image">
+          <div class="course-card-content">
+            <h3 class="course-card-title">Python for Data Science</h3>
+            <p class="course-card-desc">Learn the fundamentals of Python and its application in data analysis with NumPy and Pandas.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag paid">Paid</span>
+              <span class="course-card-author">by Dr. Ada Lovelace</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" style="width: 75%;"></div>
+            </div>
+            <span class="progress-text">75% Complete</span>
+          </div>
+        </a>
+        
+        <!-- Course 2: In Progress -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=React" alt="Course Image" class="course-card-image">
+          <div class="course-card-content">
+            <h3 class="course-card-title">Advanced React & Hooks</h3>
+            <p class="course-card-desc">Master functional components, hooks, context API, and advanced state management in React.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag paid">Paid</span>
+              <span class="course-card-author">by Alan Turing</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" style="width: 30%;"></div>
+            </div>
+            <span class="progress-text">30% Complete</span>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Section: Recommended Courses -->
+      <h2 class="section-title">Recommended Courses</h2>
+      <div class="course-grid">
+        <!-- Course 3: Recommended -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=Free+Course" alt="Course Image" class="course-card-image">
+          <div class="course-card-content">
+            <h3 class="course-card-title">Introduction to Web Development</h3>
+            <p class="course-card-desc">A beginner's guide to HTML, CSS, and JavaScript. Build your first website from scratch.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag">Free</span>
+              <span class="course-card-author">by CONNEX Learn</span>
+            </div>
+            <button class="sign-btn">Start Course</button>
+          </div>
+        </a>
+        
+        <!-- Course 4: Recommended -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=SQL" alt="Course Image" class="course-card-image">
+          <div class="course-card-content">
+            <h3 class="course-card-title">SQL Database Fundamentals</h3>
+            <p class="course-card-desc">Learn to query, manipulate, and manage data in relational databases using SQL.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag paid">Paid</span>
+              <span class="course-card-author">by Grace Hopper</span>
+            </div>
+            <button class="sign-btn">View Course</button>
+          </div>
+        </a>
+        
+        <!-- Course 5: Recommended -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=UX/UI" alt="Course Image" class="course-card-image">
+          <div class="course-card-content">
+            <h3 class="course-card-title">UX/UI Design Principles</h3>
+            <p class="course-card-desc">Understand user-centered design, wireframing, and prototyping in Figma.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag paid">Paid</span>
+              <span class="course-card-author">by Don Norman</span>
+            </div>
+            <button class="sign-btn">View Course</button>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Section: Completed Courses -->
+      <h2 class="section-title">Completed</h2>
+      <div class="course-grid">
+        <!-- Course 6: Completed -->
+        <a href="#" class="course-card" style="text-decoration: none; color: inherit;">
+          <img src="https://placehold.co/600x340/0a192f/ade8ff?text=HTML/CSS" alt="Course Image" class="course-card-image" style="filter: grayscale(80%);">
+          <div class="course-card-content">
+            <h3 class="course-card-title">Intro to HTML & CSS</h3>
+            <p class="course-card-desc">The basics of web structure and styling. Completed on 10/28/2025.</p>
+            <div class="course-card-tags">
+              <span class="course-card-tag completed">Completed</span>
+              <span class="course-card-author">by CONNEX Learn</span>
+            </div>
+            <button class="sign-btn" style="background-color: #555;">View Certificate</button>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>CONNEX</h3>
+          <p>Building bridges between students and professionals.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Project by:</h4>
+          <ul>
+            <li>Hitendra Annavarapu</li>
+            <li>Mahadi Ibrahim</li>
+            <li>Quin Curry</li>
+            <li>Charan Suguri</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
