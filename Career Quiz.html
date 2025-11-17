@@ -111,6 +111,10 @@
     .sign-btn:hover {
       background-color: #0056b3;
     }
+    .sign-btn:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
 
     /* --- Main Container & Hero --- */
     .container {
@@ -127,18 +131,6 @@
         padding-bottom: 3rem;
     }
 
-    .dashboard-hero {
-      text-align: center;
-      padding: 2.5rem 0;
-    }
-
-    .dashboard-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 0.5rem;
-    }
-
     /* --- Quiz Styles --- */
     .quiz-container {
       width: 100%;
@@ -152,6 +144,7 @@
       border-radius: 16px;
       padding: 2rem;
       overflow: hidden; /* For animations */
+      min-height: 400px; /* Ensure space for spinner */
     }
 
     .quiz-question {
@@ -241,6 +234,28 @@
     
     .results-details span {
         color: #c5c5c5;
+    }
+
+    /* --- Loading Spinner --- */
+    #loading-spinner {
+        display: none; /* Hidden by default */
+        width: 60px;
+        height: 60px;
+        border: 6px solid rgba(255, 255, 255, 0.2);
+        border-top-color: #007aff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 2rem auto;
+    }
+    #loading-text {
+        display: none;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #c5c5c5;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
 
@@ -340,17 +355,24 @@
 
         <!-- Results Box -->
         <div id="results-box">
-          <h2 class="results-title">Your Career Profile</h2>
-          <p class="results-subtitle">Based on your answers, here is a career path that matches your interests:</p>
-          <h3 class="results-careers" id="results-careers-text">[Career Examples]</h3>
-          <p class="results-description" id="results-description-text">[Brief Description]</p>
-          <div class="results-details">
-            <strong>Education:</strong>
-            <span id="results-education-text">[Education]</span>
-            <strong>Median Salary:</strong>
-            <span id="results-salary-text">[Median Salary]</span>
-            <strong>Work Environment:</strong>
-            <span id="results-environment-text">[Work Environment]</span>
+          <h2 class="results-title" id="results-title-text">Your Career Profile</h2>
+          <!-- Loading State -->
+          <div id="loading-spinner"></div>
+          <p id="loading-text">Analyzing your results...</p>
+          
+          <!-- Content to be shown after loading -->
+          <div id="results-content">
+            <p class="results-subtitle" id="results-subtitle-text">Based on your answers, here is a career path that matches your interests:</p>
+            <h3 class="results-careers" id="results-careers-text">[Career Examples]</h3>
+            <p class="results-description" id="results-description-text">[Brief Description]</p>
+            <div class="results-details">
+              <strong>Education:</strong>
+              <span id="results-education-text">[Education]</span>
+              <strong>Median Salary:</strong>
+              <span id="results-salary-text">[Median Salary]</span>
+              <strong>Work Environment:</strong>
+              <span id="results-environment-text">[Work Environment]</span>
+            </div>
           </div>
           <button class="sign-btn" id="restart-quiz-btn">Take Quiz Again</button>
         </div>
@@ -395,6 +417,11 @@
   <!-- JAVASCRIPT FOR QUIZ LOGIC -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+
+      // --- API Configuration ---
+      // IMPORTANT: The API key is left empty. Your environment will provide this.
+      const apiKey = "AIzaSyD7yff-vHibNIRAS5UuaXnL-qLOQEuOoBk"; 
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
       // --- 1. DEFINE QUIZ QUESTIONS (from career_finder_quiz_tree.md) ---
       const questions = {
@@ -550,7 +577,7 @@
         'Social-Community + Moderate-Agreeableness + Flexible + Moderate-Neuroticism': { careers: 'Community Organizer', description: 'Advocacy, nonprofit', education: 'BA/MS', salary: '$40k-$70k', environment: 'Nonprofit/Field' },
         'Enterprising-Sales + High-Extraversion + Autonomous + Low-Neuroticism': { careers: 'Sales Executive, Realtor', description: 'Sales, client mgt', education: 'BA', salary: '$55k-$120k+', environment: 'Field/Meetings' },
         'Enterprising-Management + Moderate-Extraversion + Structured + Low-Neuroticism': { careers: 'Project Manager, HR Manager', description: 'Team mgmt, ops', education: 'BA/MBA', salary: '$70k-$120k', environment: 'Office/Corp.' },
-        'Enterprising-Entrepreneur + High-Extraversion + Autonomous + Low-Neuroticism': { careers: 'Startup Founder, Consultant', description: 'Business building', education: 'Bachelors/MBA (Varies)', salary: '$80k - $250k+', environment: 'Self-directed' },
+        'Enterprising-Entrepreneur + High-Extraversion + Autonomous + Low-Neuroticism': { careers: 'Startup Founder, Consultant', description: 'Business building', education: 'Variable', salary: 'Highly variable', environment: 'Self-directed' },
         'Enterprising-Marketing + High-Extraversion + Flexible + Low-Neuroticism': { careers: 'Brand Strategist, PR Manager', description: 'Marketing, comms', education: 'BA', salary: '$65k-$110k', environment: 'Agency/In-house' },
         'Conventional-Finance + High-Conscientiousness + Structured + Low-Neuroticism': { careers: 'Accountant, Auditor', description: 'Accounting, finance', education: 'BA/CPA', salary: '$70k-$95k', environment: 'Office, Deadline' },
         'Conventional-Admin + Moderate-Conscientiousness + Structured + Moderate-Neuroticism': { careers: 'Office Manager, Admin Coordinator', description: 'Support, coordination', education: 'Assoc./BA', salary: '$40k-$65k', environment: 'Office' },
@@ -559,7 +586,7 @@
       };
 
       // --- 3. QUIZ STATE & DOM ELEMENTS ---
-      let currentPath = {}; // Stores answers, e.g., { Q1: 'A', Q2: 'B', ... }
+      let currentPath = []; // Stores answers as an array of objects
       let currentQuestionId = 'Q1';
 
       const quizBox = document.getElementById('quiz-box');
@@ -567,6 +594,13 @@
       const questionTextEl = document.getElementById('quiz-question-text');
       const optionsContainerEl = document.getElementById('quiz-options-container');
       const restartQuizBtn = document.getElementById('restart-quiz-btn');
+      
+      // Loading and results content elements
+      const loadingSpinner = document.getElementById('loading-spinner');
+      const loadingText = document.getElementById('loading-text');
+      const resultsContent = document.getElementById('results-content');
+      const resultsTitleText = document.getElementById('results-title-text');
+      
 
       // --- 4. QUIZ LOGIC FUNCTIONS ---
 
@@ -588,7 +622,7 @@
           button.type = 'button';
           button.className = 'option-btn';
           button.textContent = option.text;
-          button.onclick = () => handleAnswerClick(questionId, option.choice, option.next);
+          button.onclick = () => handleAnswerClick(questionId, question.text, option.choice, option.text, option.next);
           optionsContainerEl.appendChild(button);
         });
       }
@@ -596,9 +630,14 @@
       /**
        * Handles an answer click, stores the path, and navigates.
        */
-      function handleAnswerClick(questionId, choice, nextStep) {
-        // Store the answer
-        currentPath[questionId] = choice;
+      function handleAnswerClick(questionId, questionText, choice, answerText, nextStep) {
+        // Store the full answer details
+        currentPath.push({
+          id: questionId,
+          question: questionText,
+          choice: choice,
+          answer: answerText
+        });
 
         if (nextStep === 'RESULT') {
           // End of the quiz, calculate and show results
@@ -613,34 +652,72 @@
       /**
        * Calculates the result based on the stored path and displays it.
        */
-      function showResult() {
+      async function showResult() {
+        // Hide quiz, show results box
+        quizBox.style.display = 'none';
+        resultsBox.style.display = 'block';
+
+        // Set up loading state
+        loadingSpinner.style.display = 'block';
+        loadingText.style.display = 'block';
+        resultsContent.style.display = 'none';
+        restartQuizBtn.disabled = true;
+        restartQuizBtn.textContent = 'Analyzing...';
+        resultsTitleText.textContent = 'Analyzing Your Profile';
+
         // This is the complex part: mapping the path to the result code
         const resultCode = getResultCodeFromPath(currentPath);
-        const result = resultsData[resultCode] || { // Fallback
+        const baseResult = resultsData[resultCode] || { // Fallback
           careers: 'Generalist / Explorer',
-          description: 'You have a well-rounded set of interests! We recommend exploring our job board to see what sparks your curiosity.',
+          description: 'You have a well-rounded set of interests!',
           education: 'Varies by Field',
           salary: 'Varies by Field',
           environment: 'Varies by Field'
         };
 
-        // Populate results elements
+        try {
+          // Call the Gemini API to get a concrete result
+          const aiResult = await callGeminiApi(currentPath, baseResult);
+          
+          // Populate results elements with AI-powered data
+          populateResults(aiResult);
+
+        } catch (error) {
+          console.error('Error calling Gemini API:', error);
+          // If API fails, show the base result
+          populateResults(baseResult, "We couldn't get an AI analysis, but here is your base profile:");
+        } finally {
+          // Hide loading state, show content
+          loadingSpinner.style.display = 'none';
+          loadingText.style.display = 'none';
+          resultsContent.style.display = 'block';
+          restartQuizBtn.disabled = false;
+          restartQuizBtn.textContent = 'Take Quiz Again';
+          resultsTitleText.textContent = 'Your Career Profile';
+        }
+      }
+      
+      /**
+       * Helper to populate the results card
+       */
+      function populateResults(result, subtitle = null) {
+        if (subtitle) {
+          document.getElementById('results-subtitle-text').textContent = subtitle;
+        } else {
+          document.getElementById('results-subtitle-text').textContent = "Based on your answers, here is a career path that matches your interests:";
+        }
         document.getElementById('results-careers-text').textContent = result.careers;
         document.getElementById('results-description-text').textContent = result.description;
         document.getElementById('results-education-text').textContent = result.education;
         document.getElementById('results-salary-text').textContent = result.salary;
         document.getElementById('results-environment-text').textContent = result.environment;
-        
-        // Hide quiz, show results
-        quizBox.style.display = 'none';
-        resultsBox.style.display = 'block';
       }
       
       /**
        * Resets the quiz to the beginning.
        */
       function restartQuiz() {
-          currentPath = {};
+          currentPath = [];
           currentQuestionId = 'Q1';
           resultsBox.style.display = 'none';
           quizBox.style.display = 'block';
@@ -653,83 +730,187 @@
       /**
        * This is the core logic that maps the user's path (e.g., {Q1: 'A', Q2: 'B', ...})
        * to the named key in the resultsData object (e.g., "Realistic-Mechanical...").
-       * This logic is derived directly from your .md file.
        */
       function getResultCodeFromPath(path) {
+        // Helper to find a choice by question ID
+        const getChoice = (id) => path.find(p => p.id === id)?.choice;
+
         // --- Q15: Stress (Neuroticism) ---
         let p15_neuroticism = '';
-        if (path['Q15'] === 'A') p15_neuroticism = 'Low-Neuroticism';
-        else if (path['Q15'] === 'B') p15_neuroticism = 'Moderate-Neuroticism';
-        else if (path['Q15'] === 'C') p15_neuroticism = 'High-Neuroticism'; // Mapping "Prefer calm" to High-N for "Social-Counseling"
+        const q15_choice = getChoice('Q15');
+        if (q15_choice === 'A') p15_neuroticism = 'Low-Neuroticism';
+        else if (q15_choice === 'B') p15_neuroticism = 'Moderate-Neuroticism';
+        else if (q15_choice === 'C') p15_neuroticism = 'High-Neuroticism'; // Mapping "Prefer calm" to High-N for "Social-Counseling"
 
         // --- Q14: Schedule (Structured) ---
         let p14_structure = '';
-        if (path['Q14'] === 'A') p14_structure = 'Structured';
-        else if (path['Q14'] === 'B') p14_structure = 'Flexible';
-        else if (path['Q14'] === 'C') p14_structure = 'Autonomous'; // Mapping project-based to autonomous
+        const q14_choice = getChoice('Q14');
+        if (q14_choice === 'A') p14_structure = 'Structured';
+        else if (q14_choice === 'B') p14_structure = 'Flexible';
+        else if (q14_choice === 'C') p14_structure = 'Autonomous'; // Mapping project-based to autonomous
 
         // --- PATH A: Realistic ---
-        if (path['Q1'] === 'A') {
-          let p2_domain = path['Q2'] === 'A' ? 'Construction' : path['Q2'] === 'B' ? 'Mechanical' : path['Q2'] === 'C' ? 'Nature' : 'Technical';
-          let p8_extraversion = path['Q8'] === 'A' ? 'Low-Extraversion' : path['Q8'] === 'B' ? 'Moderate-Extraversion' : 'High-Extraversion';
+        const q1_choice = getChoice('Q1');
+        const q2_choice = getChoice('Q2');
+        if (q1_choice === 'A') {
+          let p2_domain = q2_choice === 'A' ? 'Construction' : q2_choice === 'B' ? 'Mechanical' : q2_choice === 'C' ? 'Nature' : 'Technical';
+          let p8_extraversion = getChoice('Q8') === 'A' ? 'Low-Extraversion' : getChoice('Q8') === 'B' ? 'Moderate-Extraversion' : 'High-Extraversion';
           // Fix for "Realistic-Nature" (Q2:C) which uses Flexible+Moderate
-          if (path['Q2'] === 'C') return 'Realistic-Nature + Low-Extraversion + Flexible + Moderate-Neuroticism';
+          if (q2_choice === 'C') return 'Realistic-Nature + Low-Extraversion + Flexible + Moderate-Neuroticism';
           // Fix for "Realistic-Technical" (Q2:D)
-          if (path['Q2'] === 'D') return 'Realistic-Technical + Moderate-Extraversion + Flexible + Low-Neuroticism';
+          if (q2_choice === 'D') return 'Realistic-Technical + Moderate-Extraversion + Flexible + Low-Neuroticism';
           return `Realistic-${p2_domain} + ${p8_extraversion} + ${p14_structure} + ${p15_neuroticism}`;
         }
         
         // --- PATH B: Investigative ---
-        if (path['Q1'] === 'B') {
-          let p3_domain = path['Q3'] === 'A' ? 'Life' : path['Q3'] === 'B' ? 'Physical' : path['Q3'] === 'C' ? 'Data' : 'Social';
-          let p9_openness = path['Q9'] === 'A' ? 'Low-Openness' : path['Q9'] === 'B' ? 'Moderate-Openness' : 'High-Openness';
+        const q3_choice = getChoice('Q3');
+        if (q1_choice === 'B') {
+          let p3_domain = q3_choice === 'A' ? 'Life' : q3_choice === 'B' ? 'Physical' : q3_choice === 'C' ? 'Data' : 'Social';
+          let p9_openness = getChoice('Q9') === 'A' ? 'Low-Openness' : getChoice('Q9') === 'B' ? 'Moderate-Openness' : 'High-Openness';
           // Fix for "Investigative-Data" (Q3:C) which uses Autonomous
-          if (path['Q3'] === 'C') return 'Investigative-Data + High-Openness + Autonomous + Low-Neuroticism';
+          if (q3_choice === 'C') return 'Investigative-Data + High-Openness + Autonomous + Low-Neuroticism';
           return `Investigative-${p3_domain} + ${p9_openness} + ${p14_structure} + ${p15_neuroticism}`;
         }
         
         // --- PATH C: Artistic ---
-        if (path['Q1'] === 'C') {
-          let p4_domain = path['Q4'] === 'A' ? 'Visual' : path['Q4'] === 'B' ? 'Writing' : path['Q4'] === 'C' ? 'Performance' : 'Design';
-          let p10_openness = path['Q10'] === 'A' ? 'Low-Openness' : path['Q10'] === 'B' ? 'Moderate-Openness' : 'High-Openness';
+        const q4_choice = getChoice('Q4');
+        if (q1_choice === 'C') {
+          let p4_domain = q4_choice === 'A' ? 'Visual' : q4_choice === 'B' ? 'Writing' : q4_choice === 'C' ? 'Performance' : 'Design';
+          let p10_openness = getChoice('Q10') === 'A' ? 'Low-Openness' : getChoice('Q10') === 'B' ? 'Moderate-Openness' : 'High-Openness';
           // Fix for "Artistic-Design" (Q4:D)
-          if (path['Q4'] === 'D') return 'Artistic-Design + Low-Openness + Structured + Moderate-Neuroticism';
+          if (q4_choice === 'D') return 'Artistic-Design + Low-Openness + Structured + Moderate-Neuroticism';
           return `Artistic-${p4_domain} + ${p10_openness} + ${p14_structure} + ${p15_neuroticism}`;
         }
         
         // --- PATH D: Social ---
-        if (path['Q1'] === 'D') {
-          let p5_domain = path['Q5'] === 'A' ? 'Healthcare' : path['Q5'] === 'B' ? 'Education' : path['Q5'] === 'C' ? 'Counseling' : 'Community';
-          let p11_agree = path['Q11'] === 'A' ? 'Low-Agreeableness' : path['Q11'] === 'B' ? 'Moderate-Agreeableness' : 'High-Agreeableness';
+        const q5_choice = getChoice('Q5');
+        if (q1_choice === 'D') {
+          let p5_domain = q5_choice === 'A' ? 'Healthcare' : q5_choice === 'B' ? 'Education' : q5_choice === 'C' ? 'Counseling' : 'Community';
+          let p11_agree = getChoice('Q11') === 'A' ? 'Low-Agreeableness' : getChoice('Q11') === 'B' ? 'Moderate-Agreeableness' : 'High-Agreeableness';
           // Fix for "Social-Counseling" (Q5:C) which uses Flexible+High
-          if (path['Q5'] === 'C' && p15_neuroticism === 'High-Neuroticism') return 'Social-Counseling + High-Agreeableness + Flexible + High-Neuroticism';
+          if (q5_choice === 'C' && p15_neuroticism === 'High-Neuroticism') return 'Social-Counseling + High-Agreeableness + Flexible + High-Neuroticism';
           return `Social-${p5_domain} + ${p11_agree} + Structured + ${p15_neuroticism}`; // Defaulting to Structured for Q11 paths
         }
         
         // --- PATH E: Enterprising ---
-        if (path['Q1'] === 'E') {
-          let p6_domain = path['Q6'] === 'A' ? 'Sales' : path['Q6'] === 'B' ? 'Management' : path['Q6'] === 'C' ? 'Entrepreneur' : 'Marketing';
-          let p12_extra = path['Q12'] === 'A' ? 'Low-Extraversion' : path['Q12'] === 'B' ? 'Moderate-Extraversion' : 'High-Extraversion';
+        const q6_choice = getChoice('Q6');
+        if (q1_choice === 'E') {
+          let p6_domain = q6_choice === 'A' ? 'Sales' : q6_choice === 'B' ? 'Management' : q6_choice === 'C' ? 'Entrepreneur' : 'Marketing';
+          let p12_extra = getChoice('Q12') === 'A' ? 'Low-Extraversion' : getChoice('Q12') === 'B' ? 'Moderate-Extraversion' : 'High-Extraversion';
           // Fix for "Enterprising-Entrepreneur" (Q6:C)
-          if (path['Q6'] === 'C') return 'Enterprising-Entrepreneur + High-Extraversion + Autonomous + Low-Neuroticism';
+          if (q6_choice === 'C') return 'Enterprising-Entrepreneur + High-Extraversion + Autonomous + Low-Neuroticism';
           // Fix for "Enterprising-Sales" (Q6:A)
-          if (path['Q6'] === 'A') return 'Enterprising-Sales + High-Extraversion + Autonomous + Low-Neuroticism';
+          if (q6_choice === 'A') return 'Enterprising-Sales + High-Extraversion + Autonomous + Low-Neuroticism';
           // Fix for "Enterprising-Marketing" (Q6:D)
-          if (path['Q6'] === 'D') return 'Enterprising-Marketing + High-Extraversion + Flexible + Low-Neuroticism';
+          if (q6_choice === 'D') return 'Enterprising-Marketing + High-Extraversion + Flexible + Low-Neuroticism';
           return `Enterprising-${p6_domain} + ${p12_extra} + Structured + ${p15_neuroticism}`; // Defaulting to Structured
         }
         
         // --- PATH F: Conventional ---
-        if (path['Q1'] === 'F') {
-          let p7_domain = path['Q7'] === 'A' ? 'Finance' : path['Q7'] === 'B' ? 'Admin' : path['Q7'] === 'C' ? 'Data' : 'Legal';
-          let p13_consc = path['Q13'] === 'A' ? 'Low-Conscientiousness' : path['Q13'] === 'B' ? 'Moderate-Conscientiousness' : 'High-Conscientiousness';
+        const q7_choice = getChoice('Q7');
+        if (q1_choice === 'F') {
+          let p7_domain = q7_choice === 'A' ? 'Finance' : q7_choice === 'B' ? 'Admin' : q7_choice === 'C' ? 'Data' : 'Legal';
+          let p13_consc = getChoice('Q13') === 'A' ? 'Low-Conscientiousness' : getChoice('Q13') === 'B' ? 'Moderate-Conscientiousness' : 'High-Conscientiousness';
           return `Conventional-${p7_domain} + ${p13_consc} + Structured + ${p15_neuroticism}`; // Defaulting to Structured
         }
 
         return null; // Fallback
       }
 
-      // --- 5. START THE QUIZ ---
+      // --- 5. GEMINI API CALL FUNCTION ---
+      
+      /**
+       * Calls the Gemini API to get a concrete, AI-powered result.
+       */
+      async function callGeminiApi(answerPath, baseResult) {
+        
+        // Format the user's answers for the prompt
+        const userAnswers = answerPath.map(p => `Q: ${p.question}\nA: ${p.answer}`).join('\n\n');
+        
+        const systemPrompt = "You are a professional career counselor. A student has just completed a career quiz. Their answers are provided.";
+
+        const userPrompt = `
+          Here are the student's answers:
+          ${userAnswers}
+
+          Based on this path, the quiz algorithm produced the following base result:
+          - Careers: "${baseResult.careers}"
+          - Description: "${baseResult.description}"
+          - Education: "${baseResult.education}"
+          - Median Salary: "${baseResult.salary}"
+          - Work Environment: "${baseResult.environment}"
+
+          Your task is to analyze the user's specific answers and refine this base result into a concrete JSON object.
+          Pay close attention to fields that say "Varies" or "Highly variable". Use the user's answers (e.g., their preference for "Entrepreneurship") to provide a specific, realistic, and concrete estimate for these fields.
+          For example, for an "Entrepreneur" path, "Education" could be "Bachelor's/MBA recommended" and "Median Salary" could be an estimated range like "$80k - $250k+".
+
+          Provide *only* the final JSON object, matching this exact schema. Do not include \`\`\`json or any other text.
+        `;
+
+        // Define the JSON schema we expect in return
+        const schema = {
+          type: "OBJECT",
+          properties: {
+            "careers": { "type": "STRING" },
+            "description": { "type": "STRING" },
+            "education": { "type": "STRING" },
+            "salary": { "type": "STRING" },
+            "environment": { "type": "STRING" }
+          },
+          required: ["careers", "description", "education", "salary", "environment"]
+        };
+
+        const payload = {
+          contents: [{ parts: [{ text: userPrompt }] }],
+          systemInstruction: {
+            parts: [{ text: systemPrompt }]
+          },
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: schema,
+            temperature: 0.5,
+          }
+        };
+
+        // --- Fetch with Exponential Backoff ---
+        let response;
+        let delay = 1000;
+        for (let i = 0; i < 5; i++) { // Retry up to 5 times
+          try {
+            response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              const candidate = result.candidates?.[0];
+              
+              if (candidate && candidate.content?.parts?.[0]?.text) {
+                // The API returns the JSON as a string in the 'text' field
+                return JSON.parse(candidate.content.parts[0].text);
+              } else {
+                throw new Error('Invalid API response structure');
+              }
+            } else if (response.status === 429 || response.status >= 500) {
+              // Throttling or server error, wait and retry
+              await new Promise(resolve => setTimeout(resolve, delay));
+              delay *= 2;
+            } else {
+              // Other client-side error, don't retry
+              throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+          } catch (error) {
+            console.error(`Attempt ${i+1} failed:`, error);
+            if (i === 4) throw error; // Re-throw after last attempt
+            await new Promise(resolve => setTimeout(resolve, delay));
+            delay *= 2;
+          }
+        }
+      }
+
+      // --- 6. START THE QUIZ ---
       loadQuestion(currentQuestionId);
     });
   </script>
