@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Search | CONNEX</title>
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="../../Style/Style1.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  
+</head>
+<body>
+
+   <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../../index.html" class="logo">CONNEX</a></h1>
+
+            </div>
+            <ul class="nav-links">
+              <li><a href="../Student-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="../Student premium.html" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+
+  <main>
+    <section class="dashboard-hero">
+      <div class="container">
+        <!-- Re-using title style from Recruiter-dashboard -->
+        <h1 class="dashboard-title">Find Your Next Opportunity</h1>
+        <p class="dashboard-tagline">Search for internships, co-ops, and part-time jobs.</p>
+      </div>
+    </section>
+
+    <!-- Main Search Area -->
+    <div class="container">
+      <div class="job-search-layout">
+        
+        <!-- Filters Sidebar -->
+        <aside class="filter-sidebar">
+          <h2 class="section-title">Filters</h2>
+
+          <!-- AI Suggest Toggle -->
+          <div class="filter-group">
+            <h4>AI Suggestions</h4>
+            <label class="toggle-switch">
+              <input type="checkbox" id="ai-suggest-toggle">
+              <span class="slider-toggle"></span>
+            </label>
+            <label for="ai-suggest-toggle" class="toggle-label">Show AI-Matched Jobs</label>
+          </div>
+
+          <!-- Job Type Checkboxes -->
+          <div class="filter-group">
+            <h4>Job Type</h4>
+            <div class="checkbox-group">
+              <input type="checkbox" id="filter-internship" name="job-type" value="internship">
+              <label for="filter-internship">Internship</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="filter-part-time" name="job-type" value="part-time">
+              <label for="filter-part-time">Part-Time</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="filter-full-time" name="job-type" value="full-time">
+              <label for="filter-full-time">Full-Time</label>
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="filter-co-op" name="job-type" value="co-op">
+              <label for="filter-co-op">Co-op</label>
+            </div>
+          </div>
+
+          <!-- Salary Slider -->
+          <div class="filter-group">
+            <label for="filter-salary">Minimum Salary</label>
+            <span class="slider-value" id="salary-value">$50/hr</span>
+            <input type="range" id="filter-salary" name="salary" min="15" max="100" value="50" class="slider">
+          </div>
+          
+          <!-- Experience Slider -->
+          <div class="filter-group">
+            <label for="filter-experience">Max Experience (Years)</label>
+            <span class="slider-value" id="experience-value">1 year</span>
+            <input type="range" id="filter-experience" name="experience" min="0" max="5" value="1" class="slider">
+          </div>
+
+          <button class="sign-btn" id="apply-filters-button">Apply Filters</button>
+
+        </aside>
+
+        <!-- Job Listings -->
+        <section class="job-listings">
+          <!-- Search Bar -->
+          <div class="job-search-bar">
+            <input type="text" id="search-input" placeholder="Search by title, keyword, or company...">
+            <button class="btn-primary" id="search-button">Search</button>
+          </div>
+
+          <!-- No results message (hidden by default) -->
+          <p id="no-results-message" class="no-results">No jobs found matching your criteria.</p>
+
+          <!-- Job Card 1 -->
+          <a href="#" class="job-card-link" 
+            data-title="Software Engineer Intern" 
+            data-company="Tech Solutions Inc." 
+            data-keywords="Python, React, AWS" 
+            data-type="internship" 
+            data-salary="60" 
+            data-experience="1" 
+            data-ai-match="true">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=TSI" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Software Engineer Intern</h3>
+                <p class="job-card-company">Tech Solutions Inc.</p>
+                <p class="job-card-location">Austin, TX (Hybrid)</p>
+                <p class="job-card-snippet">Join our dynamic team to develop next-generation software. Work with Python, React, and AWS cloud services...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Python</span>
+                  <span>React</span>
+                  <span>AWS</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 2d ago</p>
+              </div>
+            </div>
+          </a>
+          
+          <!-- Job Card 2 -->
+          <a href="#" class="job-card-link"
+            data-title="Data Analyst Co-op"
+            data-company="FutureData Corp."
+            data-keywords="SQL, Tableau, Excel"
+            data-type="co-op"
+            data-salary="40"
+            data-experience="0"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=FDC" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Data Analyst Co-op (Fall 2026)</h3>
+                <p class="job-card-company">FutureData Corp.</p>
+                <p class="job-card-location">Boston, MA (Remote)</p>
+                <p class="job-card-snippet">We are seeking a motivated student to join our analytics team. You will be responsible for cleaning data, generating reports...</p>
+                <div class="job-card-tags">
+                  <span>Co-op</span>
+                  <span>SQL</span>
+                  <span>Tableau</span>
+                  <span>Excel</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 5h ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 3 -->
+          <a href="#" class="job-card-link"
+            data-title="UX/UI Design Intern"
+            data-company="Creative Minds Agency"
+            data-keywords="Figma, User-Centered Design, UI, UX"
+            data-type="internship"
+            data-salary="30"
+            data-experience="0"
+            data-ai-match="true">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=CMA" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">UX/UI Design Intern</h3>
+                <p class="job-card-company">Creative Minds Agency</p>
+                <p class="job-card-location">New York, NY (On-site)</p>
+                <p class="job-card-snippet">Help design beautiful and intuitive user interfaces for our clients. Must have a portfolio and experience with Figma...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Figma</span>
+                  <span>User-Centered Design</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 1w ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 4 -->
+          <a href="#" class="job-card-link"
+            data-title="Junior Java Developer"
+            data-company="Enterprise Systems"
+            data-keywords="Java, Spring Boot, SQL"
+            data-type="full-time"
+            data-salary="80"
+            data-experience="2"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=ES" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Junior Java Developer</h3>
+                <p class="job-card-company">Enterprise Systems</p>
+                <p class="job-card-location">Chicago, IL (On-site)</p>
+                <p class="job-card-snippet">Entry-level full-time role for a developer proficient in Java and the Spring Boot framework. SQL database experience is a plus...</p>
+                <div class="job-card-tags">
+                  <span>Full-Time</span>
+                  <span>Java</span>
+                  <span>Spring Boot</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 1d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 5 -->
+          <a href="#" class="job-card-link"
+            data-title="Part-Time IT Support"
+            data-company="Local University"
+            data-keywords="IT Support, Help Desk, Customer Service"
+            data-type="part-time"
+            data-salary="20"
+            data-experience="0"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=LU" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Part-Time IT Support</h3>
+                <p class="job-card-company">Local University</p>
+                <p class="job-card-location">Austin, TX (On-site)</p>
+                <p class="job-card-snippet">Provide technical assistance and support to students and faculty. Great for students looking for a flexible on-campus job...</p>
+                <div class="job-card-tags">
+                  <span>Part-Time</span>
+                  <span>IT Support</span>
+                  <span>Customer Service</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 3d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 6 -->
+          <a href="#" class="job-card-link"
+            data-title="Cloud Engineer Intern"
+            data-company="CloudWave Tech"
+            data-keywords="AWS, Kubernetes, Go, Terraform"
+            data-type="internship"
+            data-salary="70"
+            data-experience="2"
+            data-ai-match="true">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=CWT" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Cloud Engineer Intern</h3>
+                <p class="job-card-company">CloudWave Tech</p>
+                <p class="job-card-location">Remote</p>
+                <p class="job-card-snippet">Work with our DevOps team on scalable cloud infrastructure. Experience with Kubernetes and Terraform is highly valued...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Kubernetes</span>
+                  <span>Go</span>
+                  <span>AWS</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 4d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 7 -->
+          <a href="#" class="job-card-link"
+            data-title="Game Developer Co-op"
+            data-company="Pixel Studios"
+            data-keywords="C++, Unreal Engine, C#, Unity"
+            data-type="co-op"
+            data-salary="55"
+            data-experience="1"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=PS" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Game Developer Co-op</h3>
+                <p class="job-card-company">Pixel Studios</p>
+                <p class="job-card-location">Los Angeles, CA (Hybrid)</p>
+                <p class="job-card-snippet">Join our team to work on an unannounced AAA title. Must have strong C++ skills, experience with Unreal or Unity is a major plus...</p>
+                <div class="job-card-tags">
+                  <span>Co-op</span>
+                  <span>C++</span>
+                  <span>Unreal Engine</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 5d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 8 -->
+          <a href="#" class="job-card-link"
+            data-title="Technical Project Manager Intern"
+            data-company="Enterprise Systems"
+            data-keywords="Agile, Scrum, Project Management, JIRA"
+            data-type="internship"
+            data-salary="45"
+            data-experience="1"
+            data-ai-match="true">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=ES" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Technical Project Manager Intern</h3>
+                <p class="job-card-company">Enterprise Systems</p>
+                <p class="job-card-location">Chicago, IL (Hybrid)</p>
+                <p class="job-card-snippet">Learn the ins and outs of Agile project management. You will help manage sprints, track tasks in JIRA, and communicate with stakeholders...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Agile</span>
+                  <span>JIRA</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 6d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 9 -->
+          <a href="#" class="job-card-link"
+            data-title="Marketing Intern"
+            data-company="Creative Minds Agency"
+            data-keywords="Social Media, SEO, Marketing"
+            data-type="internship"
+            data-salary="25"
+            data-experience="0"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=CMA" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Marketing Intern</h3>
+                <p class="job-card-company">Creative Minds Agency</p>
+                <p class="job-card-location">New York, NY (Remote)</p>
+                <p class="job-card-snippet">Looking for a creative individual to help with our social media and SEO campaigns. This is an unpaid internship with college credit...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Social Media</span>
+                  <span>SEO</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 6d ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 10 -->
+          <a href="#" class="job-card-link"
+            data-title="Senior React Developer"
+            data-company="Tech Solutions Inc."
+            data-keywords="React, TypeScript, JavaScript"
+            data-type="full-time"
+            data-salary="95"
+            data-experience="5"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=TSI" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Senior React Developer</h3>
+                <p class="job-card-company">Tech Solutions Inc.</p>
+                <p class="job-card-location">Austin, TX (Remote)</p>
+                <p class="job-card-snippet">We are hiring a senior developer to lead our front-end team. Must have 5+ years of experience with React and TypeScript...</p>
+                <div class="job-card-tags">
+                  <span>Full-Time</span>
+                  <span>React</span>
+                  <span>TypeScript</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 1w ago</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Job Card 11 -->
+          <a href="#" class="job-card-link"
+            data-title="AI/ML Research Intern"
+            data-company="FutureData Corp."
+            data-keywords="Python, TensorFlow, PyTorch, AI, ML"
+            data-type="internship"
+            data-salary="75"
+            data-experience="2"
+            data-ai-match="true">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=FDC" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">AI/ML Research Intern</h3>
+                <p class="job-card-company">FutureData Corp.</p>
+                <p class="job-card-location">Boston, MA (Hybrid)</p>
+                <p class="job-card-snippet">Work on cutting-edge machine learning models. Must be enrolled in a Master's or PhD program. Experience with TensorFlow or PyTorch...</p>
+                <div class="job-card-tags">
+                  <span>Internship</span>
+                  <span>Python</span>
+                  <span>TensorFlow</span>
+                  <span>AI</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 1w ago</p>
+              </div>
+            </div>
+          </a>
+          
+          <!-- Job Card 12 -->
+          <a href="#" class="job-card-link"
+            data-title="Part-Time Barista"
+            data-company="Campus Coffee"
+            data-keywords="Customer Service, Food Service"
+            data-type="part-time"
+            data-salary="15"
+            data-experience="0"
+            data-ai-match="false">
+            <div class="job-card">
+              <img src="https://placehold.co/100x100/ffffff/0a192f?text=CC" alt="Company Logo" class="job-card-logo">
+              <div class="job-card-details">
+                <h3 class="job-card-title">Part-Time Barista</h3>
+                <p class="job-card-company">Campus Coffee</p>
+                <p class="job-card-location">Austin, TX (On-site)</p>
+                <p class="job-card-snippet">Friendly and fast-paced environment. Flexible hours available to work around your class schedule. No experience necessary...</p>
+                <div class="job-card-tags">
+                  <span>Part-Time</span>
+                  <span>Customer Service</span>
+                </div>
+              </div>
+              <div class="job-card-posted">
+                <p>Posted 2w ago</p>
+              </div>
+            </div>
+          </a>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (Copied from index.html) -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CONNEX</h3>
+                <p>Building bridges between students and professionals.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Project by:</h4>
+                <ul>
+                    <li>Hitendra Annavarapu</li>
+                    <li>Mahadi Ibrahim</li>
+                    <li>Quin Curry</li>
+                    <li>Charan Suguri</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+        </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT TO MAKE FILTERS WORK -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // --- Get all the important elements ---
+      // Sliders and their value displays
+      const salarySlider = document.getElementById('filter-salary');
+      const salaryValue = document.getElementById('salary-value');
+      const expSlider = document.getElementById('filter-experience');
+      const expValue = document.getElementById('experience-value');
+
+      // Filter/Search buttons
+      const applyFiltersBtn = document.getElementById('apply-filters-button');
+      const searchBtn = document.getElementById('search-button');
+
+      // Inputs
+      const searchInput = document.getElementById('search-input');
+      const aiToggle = document.getElementById('ai-suggest-toggle');
+      
+      // Job list and 'no results' message
+      const jobListings = document.querySelectorAll('.job-card-link');
+      const noResultsMessage = document.getElementById('no-results-message');
+
+      // --- 1. Update slider value displays on input ---
+      if (salarySlider) {
+        salarySlider.oninput = function() {
+          salaryValue.textContent = '$' + this.value + (this.value == 100 ? '+/hr' : '/hr');
+        }
+      }
+
+      if (expSlider) {
+        expSlider.oninput = function() {
+          let yearText = (this.value == 1) ? ' year' : ' years';
+          expValue.textContent = this.value + yearText;
+        }
+      }
+
+      // --- 2. Define the main filtering function ---
+      function filterJobs() {
+        // Get all current filter values
+        const searchText = searchInput.value.toLowerCase();
+        const showAiOnly = aiToggle.checked;
+        const minSalary = parseInt(salarySlider.value);
+        const maxExperience = parseInt(expSlider.value);
+        
+        // Get all checked job types
+        const checkedTypes = document.querySelectorAll('input[name="job-type"]:checked');
+        const selectedTypes = [];
+        checkedTypes.forEach(function(checkbox) {
+          selectedTypes.push(checkbox.value);
+        });
+
+        let jobsFound = 0;
+
+        // Loop through each job listing
+        jobListings.forEach(function(job) {
+          const jobData = job.dataset;
+          
+          // Get the job's data
+          const jobTitle = jobData.title.toLowerCase();
+          const jobCompany = jobData.company.toLowerCase();
+          const jobKeywords = jobData.keywords.toLowerCase();
+          const jobType = jobData.type;
+          const jobSalary = parseInt(jobData.salary);
+          const jobExperience = parseInt(jobData.experience);
+          const isAiMatch = jobData.aiMatch === 'true';
+
+          let isVisible = true; // Assume it's visible unless a filter hides it
+
+          // --- Run all filter checks ---
+
+          // 1. Search Text Filter
+          if (searchText && !(jobTitle.includes(searchText) || jobCompany.includes(searchText) || jobKeywords.includes(searchText))) {
+            isVisible = false;
+          }
+
+          // 2. AI Toggle Filter
+          if (showAiOnly && !isAiMatch) {
+            isVisible = false;
+          }
+
+          // 3. Job Type Checkbox Filter
+          // (Only apply if at least one box is checked)
+          if (selectedTypes.length > 0 && !selectedTypes.includes(jobType)) {
+            isVisible = false;
+          }
+
+          // 4. Salary Slider Filter
+          if (jobSalary < minSalary) {
+            isVisible = false;
+          }
+
+          // 5. Experience Slider Filter
+          // (Show jobs that require *at most* the selected experience)
+          if (jobExperience > maxExperience) {
+            isVisible = false;
+          }
+
+          // --- Show or Hide the job card ---
+          if (isVisible) {
+            job.style.display = 'block';
+            jobsFound++;
+          } else {
+            job.style.display = 'none';
+          }
+        });
+
+        // --- Show or hide the 'no results' message ---
+        if (jobsFound === 0) {
+          noResultsMessage.style.display = 'block';
+        } else {
+          noResultsMessage.style.display = 'none';
+        }
+      }
+
+      // --- 3. Add event listeners to buttons ---
+      if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', filterJobs);
+      }
+      
+      if (searchBtn) {
+        searchBtn.addEventListener('click', filterJobs);
+      }
+      
+      // Optional: Allow pressing Enter in search bar
+      if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            filterJobs();
+          }
+        });
+      }
+
+    });
+  </script>
+</body>
+</html>
