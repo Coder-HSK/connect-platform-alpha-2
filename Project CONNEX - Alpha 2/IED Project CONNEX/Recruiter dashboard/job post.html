@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post a Job | CONNEX</title>
+    <link rel="stylesheet" href="../../Style/Style1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+   <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../../index.html" class="logo">CONNEX</a></h1>
+            </div>
+            <ul class="nav-links">
+              <li><a href="../Recruiter-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="../Recruiter premium.html" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="recruiter-account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+    </div>
+  </header>
+  <main>
+    <section class="post-job-section">
+      <div class="container">
+        <h1 class="section-title">Post a Job</h1>
+        <form id="jobForm" autocomplete="off" class="job-form">
+          <div class="form-group">
+            <label for="jobTitle">Job Title<span>*</span></label>
+            <input type="text" id="jobTitle" required placeholder="e.g. Frontend Developer">
+          </div>
+          <div class="form-group">
+            <label for="jobType">Type<span>*</span></label>
+            <select id="jobType" required>
+              <option value="">Select…</option>
+              <option value="Internship">Internship</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Project">Project-Based</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="e.g. Remote, New York, Hybrid">
+          </div>
+          <div class="form-group">
+            <label for="company">Company<span>*</span></label>
+            <input type="text" id="company" required placeholder="Company Name">
+          </div>
+          <div class="form-group">
+            <label for="deadline">Application Deadline</label>
+            <input type="date" id="deadline">
+          </div>
+          <div class="form-group">
+            <label for="description">Job Description<span>*</span></label>
+            <textarea id="description" rows="4" required placeholder="Describe responsibilities, requirements, perks, etc."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="requirements">Required Skills (comma-separated)</label>
+            <input type="text" id="requirements" placeholder="e.g. JavaScript, Communication, Teamwork">
+          </div>
+          <div class="form-group">
+            <label for="salary">Salary / Stipend</label>
+            <input type="text" id="salary" placeholder="e.g. $3000/month, Unpaid">
+          </div>
+          <button type="submit" class="post-btn">Post Job</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Posted jobs (demo "social" feed) -->
+    <section class="job-feed-section">
+      <div class="container">
+        <h2 class="job-feed-title">Jobs You’ve Posted</h2>
+        <div id="jobFeed" class="job-feed"></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 
+  </footer>
+  <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CONNEX</h3>
+                    <p>Building bridges between students and professionals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Project by:</h4>
+                    <ul>
+                        <li>Hitendra Annavarapu</li>
+                        <li>Mahadi Ibrahim</li>
+                        <li>Quin Curry</li>
+                        <li>Charan Suguri</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+  <script>
+    // Client-side demo - stores jobs in localStorage
+    function renderJobs() {
+      const jobs = JSON.parse(localStorage.getItem('recruiterJobs') || '[]');
+      const feed = document.getElementById('jobFeed');
+      feed.innerHTML = "";
+      if (jobs.length === 0) {
+        feed.innerHTML = "<div class='job-empty'>No jobs posted yet.</div>";
+        return;
+      }
+      jobs.forEach((job, i) => {
+        feed.innerHTML += `
+          <div class="job-card">
+            <h3>${job.title}</h3>
+            <div class="job-meta">${job.type} · ${job.location}</div>
+            <div class="job-company">${job.company}</div>
+            <div class="job-desc">${job.description}</div>
+            <div class="job-skills"><strong>Skills:</strong> ${job.requirements}</div>
+            <div class="job-pay">${job.salary ? "<strong>Pay:</strong> " + job.salary : ""}</div>
+            <div class="job-deadline">${job.deadline ? "<strong>Deadline:</strong> " + job.deadline : ""}</div>
+          </div>
+        `;
+      });
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      renderJobs();
+      document.getElementById("jobForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        const job = {
+          title: document.getElementById('jobTitle').value,
+          type: document.getElementById('jobType').value,
+          location: document.getElementById('location').value,
+          company: document.getElementById('company').value,
+          deadline: document.getElementById('deadline').value,
+          description: document.getElementById('description').value,
+          requirements: document.getElementById('requirements').value,
+          salary: document.getElementById('salary').value,
+        };
+        const jobs = JSON.parse(localStorage.getItem('recruiterJobs') || '[]');
+        jobs.unshift(job);
+        localStorage.setItem('recruiterJobs', JSON.stringify(jobs));
+        renderJobs();
+        this.reset();
+        window.scrollTo({top: document.getElementById("jobFeed").offsetTop, behavior:'smooth'});
+      });
+    });
+  </script>
+</body>
+</html>

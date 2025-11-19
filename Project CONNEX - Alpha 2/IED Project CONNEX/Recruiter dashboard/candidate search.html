@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Search | CONNEX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../../Style/Style1.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+   
+</head>
+<body class="flex flex-col">
+   <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../../index.html" class="logo">CONNEX</a></h1>
+            </div>
+            <ul class="nav-links">
+              <li><a href="../Recruiter-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="../Recruiter premium.html" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="recruiter-account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col p-4 md:p-8">
+        <header class="text-center text-white mb-10 max-w-4xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-bold">Candidate Search</h1>
+            <p class="text-lg text-gray-400 mt-2">Find students with specific skills, majors, or experience.</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- Filter Sidebar -->
+            <aside class="filter-sidebar glass-card">
+                <h2 class="section-title">Filters</h2>
+                <div class="filter-group">
+                    <h4>Major</h4>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-major-cs" name="major-filter" value="cs">
+                      <label for="filter-major-cs">Computer Science</label>
+                    </div>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-major-ba" name="major-filter" value="ba">
+                      <label for="filter-major-ba">Business Admin</label>
+                    </div>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-major-ds" name="major-filter" value="ds">
+                      <label for="filter-major-ds">Data Science</label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h4>Skills</h4>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-skill-py" name="skill-filter" value="python">
+                      <label for="filter-skill-py">Python</label>
+                    </div>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-skill-re" name="skill-filter" value="react">
+                      <label for="filter-skill-re">React</label>
+                    </div>
+                    <div class="checkbox-group">
+                      <input type="checkbox" id="filter-skill-sql" name="skill-filter" value="sql">
+                      <label for="filter-skill-sql">SQL</label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-grad-year">Graduation Year (by)</label>
+                    <span class="slider-value" id="grad-year-value">2026</span>
+                    <input type="range" id="filter-grad-year" name="grad-year" min="2025" max="2028" value="2026" class="slider">
+                </div>
+                <button class="btn-secondary" id="apply-filters">Search Candidates</button>
+            </aside>
+            
+            <!-- Candidate List -->
+            <div class="candidate-list">
+                <p id="no-results" class="text-center text-gray-400 text-lg hidden">No candidates match the current filters.</p>
+
+                <!-- Sample Candidate 1 -->
+                <div class="candidate-card glass-card" data-major="cs" data-skills="python,react" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Alice Johnson</h3>
+                    <p class="text-gray-400 text-sm mt-1">University of Texas at Austin - B.S. Computer Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Passionate about web development and cloud computing. Project experience with React and AWS.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">React</span>
+                        <span class="candidate-card-tag">JavaScript</span>
+                        <span class="candidate-card-tag">AWS</span>
+                    </div>
+                </div>
+                <!-- Sample Candidate 2 -->
+                <div class="candidate-card glass-card" data-major="cs" data-skills="python" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Bob Smith</h3>
+                    <p class="text-gray-400 text-sm mt-1">Texas A&M University - B.S. Computer Engineering</p>
+                    <p class="text-gray-300 mt-3 text-sm">Focus on machine learning and backend systems. Proficient in Python and C++.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">C++</span>
+                        <span class="candidate-card-tag">Machine Learning</span>
+                    </div>
+                </div>
+                <!-- Sample Candidate 3 -->
+                <div class="candidate-card glass-card" data-major="ba" data-skills="" data-grad="2025">
+                    <h3 class="text-xl font-semibold text-white">Charlie Brown</h3>
+                    <p class="text-gray-400 text-sm mt-1">Rice University - B.A. Business & Computer Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Seeking a product management role. Experience in market analysis and user-centered design.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Product Management</span>
+                        <span class="candidate-card-tag">Agile</span>
+                        <span class="candidate-card-tag">Figma</span>
+                    </div>
+                </div>
+                <!-- Sample Candidate 4 -->
+                <div class="candidate-card glass-card" data-major="ds" data-skills="python,sql" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Diana Prince</h3>
+                    <p class="text-gray-400 text-sm mt-1">University of Houston - M.S. Data Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Data scientist with experience in statistical modeling and data visualization. Strong SQL and Python skills.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">SQL</span>
+                        <span class="candidate-card-tag">Tableau</span>
+                        <span class="candidate-card-tag">R</span>
+                    </div>
+                </div>
+                <!-- Sample Candidate 5 -->
+                <div class="candidate-card glass-card" data-major="cs" data-skills="react" data-grad="2027">
+                    <h3 class="text-xl font-semibold text-white">Evan Wright</h3>
+                    <p class="text-gray-400 text-sm mt-1">SMU - B.S. Computer Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Frontend developer focused on creating accessible and performant user interfaces with React and TypeScript.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">React</span>
+                        <span class="candidate-card-tag">TypeScript</span>
+                        <span class="candidate-card-tag">HTML/CSS</span>
+                    </div>
+                </div>
+                <!-- Sample Candidate 6 -->
+                <div class="candidate-card glass-card" data-major="ba" data-skills="" data-grad="2027">
+                    <h3 class="text-xl font-semibold text-white">Fiona Glenanne</h3>
+                    <p class="text-gray-400 text-sm mt-1">UT Dallas - B.S. Marketing</p>
+                    <p class="text-gray-300 mt-3 text-sm">Marketing student with a passion for digital campaigns and content creation. Experienced with SEO tools.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Marketing</span>
+                        <span class="candidate-card-tag">SEO</span>
+                        <span class="candidate-card-tag">Social Media</span>
+                    </div>
+                </div>
+                <!-- ... add 6 more ... -->
+                <div class="candidate-card glass-card" data-major="ds" data-skills="sql" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">George Kirk</h3>
+                    <p class="text-gray-400 text-sm mt-1">Texas Tech University - B.S. Statistics</p>
+                    <p class="text-gray-300 mt-3 text-sm">Detail-oriented statistics major with a minor in Data Science. Strong foundation in SQL and Excel.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">SQL</span>
+                        <span class="candidate-card-tag">Excel</span>
+                        <span class="candidate-card-tag">Statistics</span>
+                    </div>
+                </div>
+                <div class="candidate-card glass-card" data-major="cs" data-skills="python" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Hannah Abbott</h3>
+                    <p class="text-gray-400 text-sm mt-1">Baylor University - B.S. Computer Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Backend-focused developer with internship experience in Python (Flask) and REST API development.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">Flask</span>
+                        <span class="candidate-card-tag">SQL</span>
+                    </div>
+                </div>
+                <div class="candidate-card glass-card" data-major="ds" data-skills="sql,python" data-grad="2025">
+                    <h3 class="text-xl font-semibold text-white">Ian Malcolm</h3>
+                    <p class="text-gray-400 text-sm mt-1">University of North Texas - B.S. Mathematics</p>
+                    <p class="text-gray-300 mt-3 text-sm">Mathematician with strong analytical skills, proficient in Python for data analysis and SQL.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">SQL</span>
+                        <span class="candidate-card-tag">Mathematics</span>
+                    </div>
+                </div>
+                <div class="candidate-card glass-card" data-major="ba" data-skills="" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Jane Foster</h3>
+                    <p class="text-gray-400 text-sm mt-1">Texas State University - B.B.A. Management</p>
+                    <p class="text-gray-300 mt-3 text-sm">Leader and team player, looking for a role in project management or business operations.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">Management</span>
+                        <span class="candidate-card-tag">Project Management</span>
+                    </div>
+                </div>
+                <div class="candidate-card glass-card" data-major="cs" data-skills="react,python" data-grad="2025">
+                    <h3 class="text-xl font-semibold text-white">Kyle Reese</h3>
+                    <p class="text-gray-400 text-sm mt-1">University of Texas at Arlington - M.S. Software Engineering</p>
+                    <p class="text-gray-300 mt-3 text-sm">Full-stack developer with experience building projects in React, Node.js, and Python (Django).</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">React</span>
+                        <span class="candidate-card-tag">Node.js</span>
+                        <span class="candidate-card-tag">Python</span>
+                        <span class="candidate-card-tag">Django</span>
+                    </div>
+                </div>
+                <div class="candidate-card glass-card" data-major="ds" data-skills="sql" data-grad="2026">
+                    <h3 class="text-xl font-semibold text-white">Laura Kinney</h3>
+                    <p class="text-gray-400 text-sm mt-1">Texas Woman's University - B.S. Data Science</p>
+                    <p class="text-gray-300 mt-3 text-sm">Seeking an entry-level data analyst position. Skilled in SQL for data extraction and Excel for reporting.</p>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="candidate-card-tag">SQL</span>
+                        <span class="candidate-card-tag">Excel</span>
+                        <span class="candidate-card-tag">Data Analysis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CONNEX</h3>
+                    <p>Building bridges between students and professionals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Project by:</h4>
+                    <ul>
+                        <li>Hitendra Annavarapu</li>
+                        <li>Mahadi Ibrahim</li>
+                        <li>Quin Curry</li>
+                        <li>Charan Suguri</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Get all elements ---
+            const gradSlider = document.getElementById('filter-grad-year');
+            const gradValue = document.getElementById('grad-year-value');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const allCandidates = document.querySelectorAll('.candidate-card');
+            const noResultsMessage = document.getElementById('no-results');
+
+            // --- Update slider value ---
+            if (gradSlider) {
+                gradSlider.oninput = function() {
+                    gradValue.textContent = this.value;
+                }
+            }
+
+            // --- Filter function ---
+            function filterCandidates() {
+                // Get selected majors
+                const majorFilters = Array.from(document.querySelectorAll('input[name="major-filter"]:checked')).map(cb => cb.value);
+                
+                // Get selected skills
+                const skillFilters = Array.from(document.querySelectorAll('input[name="skill-filter"]:checked')).map(cb => cb.value);
+                
+                // Get grad year
+                const maxGradYear = parseInt(gradSlider.value);
+
+                let visibleCount = 0;
+
+                allCandidates.forEach(card => {
+                    const major = card.dataset.major;
+                    const skills = card.dataset.skills.split(',');
+                    const gradYear = parseInt(card.dataset.grad);
+
+                    // Check major (show if no majors are checked OR if it matches)
+                    const majorMatch = majorFilters.length === 0 || majorFilters.includes(major);
+                    
+                    // Check skills (show if no skills are checked OR if candidate has AT LEAST ONE selected skill)
+                    const skillMatch = skillFilters.length === 0 || skillFilters.some(skill => skills.includes(skill));
+
+                    // Check grad year
+                    const gradMatch = gradYear <= maxGradYear;
+
+                    if (majorMatch && skillMatch && gradMatch) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            // --- Attach listener ---
+            if (applyFiltersBtn) {
+                applyFiltersBtn.addEventListener('click', filterCandidates);
+            }
+            
+            // Initial filter run on load
+            filterCandidates();
+        });
+    </script>
+</body>
+</html>

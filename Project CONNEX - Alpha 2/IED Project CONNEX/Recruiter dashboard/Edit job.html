@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Your Job Postings | CONNEX</title>
+    <link rel="stylesheet" href="../../Style/Style1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  
+</head>
+<body class="sign-bg">
+  <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="../../index.html" class="logo">CONNEX</a></h1>
+            </div>
+            <ul class="nav-links">
+              <li><a href="../Recruiter-dashboard.html" class="btnk-primary">Home</a></li>
+              <li><a href="../Recruiter premium.html" class="btnk-primary">Premium</a></li>
+            </ul>
+            <div class="cta-button">
+                <a href="recruiter-account.html" class="btn-primary">Account</a>
+            </div>
+        </div>
+    </nav>
+
+  <main>
+    <section class="manage-wrapper">
+      <div class="jobs-panel">
+        <h1 class="section-title">Manage Your Job Postings</h1>
+        <div id="jobsList" class="jobs-list"></div>
+      </div>
+      <div class="edit-panel" id="editPanel">
+        <form id="editJobForm" class="job-form">
+          <h2>Edit Job</h2>
+          <input type="hidden" id="editJobId">
+          <div class="form-group"><label>Title</label><input id="editTitle" required></div>
+          <div class="form-group"><label>Type</label>
+            <select id="editType" required>
+              <option value="Internship">Internship</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Project">Project-Based</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Location</label><input id="editLocation"></div>
+          <div class="form-group"><label>Company</label><input id="editCompany" required></div>
+          <div class="form-group"><label>Deadline</label><input id="editDeadline" type="date"></div>
+          <div class="form-group"><label>Description</label>
+            <textarea id="editDescription" rows="3" required></textarea>
+          </div>
+          <div class="form-group"><label>Skills</label><input id="editRequirements"></div>
+          <div class="form-group"><label>Pay</label><input id="editSalary"></div>
+          <div style="display:flex;justify-content:space-between;gap:1.2em;">
+            <button type="button" class="post-btn" id="cancelEditBtn" style="background:#e85e69;color:#fff;">Cancel</button>
+            <button type="submit" class="post-btn">Save</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>CONNEX</h3>
+          <p>Building bridges between students and professionals.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Project by:</h4>
+          <ul>
+            <li>Hitendra Annavarapu</li>
+            <li>Mahadi Ibrahim</li>
+            <li>Quin Curry</li>
+            <li>Charan Suguri</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CONNEX Platform - Alpha 2. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>  
+
+  <!-- JS: no changes needed for layout -->
+  <script>
+function getJobs() { return JSON.parse(localStorage.getItem('recruiterJobs') || '[]'); }
+function saveJobs(jobs) { localStorage.setItem('recruiterJobs', JSON.stringify(jobs)); }
+function renderJobs() {
+  const jobs = getJobs();
+  const jobsList = document.getElementById('jobsList');
+  jobsList.innerHTML = "";
+  if (jobs.length === 0) {
+    jobsList.innerHTML = "<div class='job-empty'>No job postings yet.</div>";
+    document.getElementById('editPanel').style.display = "none";
+    return;
+  }
+  jobs.forEach((job, idx) => {
+    jobsList.innerHTML += `
+      <div class="job-card">
+        <div>
+          <h3 style="color:#1aeaea;margin-bottom:0.2em;font-size:1.25em;font-weight:700;">${job.title}</h3>
+          <div class="job-meta">${job.type} · ${job.location}</div>
+          <div class="job-company">${job.company}</div>
+          <div class="job-desc">${job.description}</div>
+          <div class="job-skills"><strong>Skills:</strong> ${job.requirements}</div>
+          <div class="job-pay">${job.salary ? "<strong>Pay:</strong> " + job.salary : ""}</div>
+          <div class="job-deadline">${job.deadline ? "<strong>Deadline:</strong> " + job.deadline : ""}</div>
+        </div>
+        <div class="job-actions">
+          <button class="job-edit-btn" data-index="${idx}">Edit</button>
+          <button class="job-delete-btn" data-index="${idx}">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
+function openEditPanel(idx) {
+  const jobs = getJobs();
+  if(!jobs[idx]) return;
+  document.getElementById('editJobId').value = idx;
+  document.getElementById('editTitle').value = jobs[idx].title;
+  document.getElementById('editType').value = jobs[idx].type;
+  document.getElementById('editLocation').value = jobs[idx].location;
+  document.getElementById('editCompany').value = jobs[idx].company;
+  document.getElementById('editDeadline').value = jobs[idx].deadline;
+  document.getElementById('editDescription').value = jobs[idx].description;
+  document.getElementById('editRequirements').value = jobs[idx].requirements;
+  document.getElementById('editSalary').value = jobs[idx].salary;
+  document.getElementById('editPanel').style.display = "block";
+}
+function closeEditPanel() { document.getElementById('editPanel').style.display = "none"; }
+document.addEventListener("DOMContentLoaded", function() {
+  renderJobs();
+  document.getElementById('jobsList').addEventListener('click', function(e){
+    if (e.target.classList.contains('job-edit-btn')) {
+      openEditPanel(e.target.getAttribute('data-index'));
+    }
+    if (e.target.classList.contains('job-delete-btn')) {
+      const idx = e.target.getAttribute('data-index');
+      let jobs = getJobs();
+      jobs.splice(idx, 1);
+      saveJobs(jobs);
+      renderJobs();
+      closeEditPanel();
+    }
+  });
+  document.getElementById('cancelEditBtn').onclick = closeEditPanel;
+  document.getElementById('editJobForm').onsubmit = function(e){
+    e.preventDefault();
+    let jobs = getJobs();
+    const idx = document.getElementById('editJobId').value;
+    jobs[idx] = {
+      title: document.getElementById('editTitle').value,
+      type: document.getElementById('editType').value,
+      location: document.getElementById('editLocation').value,
+      company: document.getElementById('editCompany').value,
+      deadline: document.getElementById('editDeadline').value,
+      description: document.getElementById('editDescription').value,
+      requirements: document.getElementById('editRequirements').value,
+      salary: document.getElementById('editSalary').value
+    };
+    saveJobs(jobs);
+    renderJobs();
+    closeEditPanel();
+  };
+});
+  </script>
+</body>
+</html>
