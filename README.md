@@ -32,6 +32,7 @@ CONNEX is a website that connects university students with companies for short-t
 1. [Hitendra]
     - Worked on the HTML for the landing page
     - All the sign-up and sign-in pages
+    - connection of every single page
 2. [Charan]
     - Worked on the HTML of the Recruiter dashboard and all the related pages
 3. [Mahadi]
