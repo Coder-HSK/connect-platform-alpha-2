@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics | CONNEX</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Import Chart.js -->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../Style/Style1.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="flex flex-col">
-   <!-- Navigation Bar -->
+  
     <nav class="navbar">
         <div class="container">
             <div class="logo">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </nav>
-    <!-- Main Content -->
+  
     <main class="flex-grow flex flex-col items-center p-4 md:p-8">
         <div class="w-full max-w-6xl mx-auto">
             <header class="text-center text-white mb-10">
@@ -37,19 +37,19 @@
             </header>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Chart: Applications per Day -->
+               
                 <div class="content-card lg:col-span-2">
                     <h2 class="text-2xl font-semibold text-white mb-4">Applications per Day (Last 7 Days)</h2>
                     <canvas id="applicationsChart"></canvas>
                 </div>
                 
-                <!-- Doughnut Chart: Applicant Status -->
+                
                 <div class="content-card">
                     <h2 class="text-2xl font-semibold text-white mb-4">Applicant Status</h2>
                     <canvas id="statusChart"></canvas>
                 </div>
 
-                <!-- Bar Chart: Top Job Postings -->
+               
                 <div class="content-card lg:col-span-3">
                     <h2 class="text-2xl font-semibold text-white mb-4">Top Job Postings by Applicants</h2>
                     <canvas id="topJobsChart"></canvas>
@@ -57,7 +57,7 @@
             </div>
         </div>
     </main>
-      <!-- Footer -->
+      
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -92,7 +92,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Chart.js Global Config ---
+            
             Chart.defaults.color = '#e0e0e0';
             Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
             Chart.defaults.plugins.legend.labels.color = '#e0e0e0';
@@ -106,7 +106,7 @@
             Chart.defaults.plugins.tooltip.displayColors = false;
             Chart.defaults.plugins.tooltip.titleFont = { weight: 'bold' };
 
-            // --- 1. Applications Chart (Line) ---
+            
             const ctxLine = document.getElementById('applicationsChart').getContext('2d');
             new Chart(ctxLine, {
                 type: 'line',
@@ -136,7 +136,7 @@
                 }
             });
 
-            // --- 2. Status Chart (Doughnut) ---
+            
             const ctxDoughnut = document.getElementById('statusChart').getContext('2d');
             new Chart(ctxDoughnut, {
                 type: 'doughnut',
@@ -146,10 +146,10 @@
                         label: 'Applicant Status',
                         data: [6, 4, 2, 2],
                         backgroundColor: [
-                            'rgba(59, 130, 246, 0.7)', // blue
-                            'rgba(234, 179, 8, 0.7)',  // yellow
-                            'rgba(139, 92, 246, 0.7)', // purple
-                            'rgba(239, 68, 68, 0.7)'   // red
+                            'rgba(59, 130, 246, 0.7)', 
+                            'rgba(234, 179, 8, 0.7)', 
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(239, 68, 68, 0.7)'   
                         ],
                         borderColor: 'rgba(10, 25, 47, 0.5)',
                         borderWidth: 2
@@ -165,7 +165,7 @@
                 }
             });
 
-            // --- 3. Top Jobs Chart (Bar) ---
+            
             const ctxBar = document.getElementById('topJobsChart').getContext('2d');
             new Chart(ctxBar, {
                 type: 'bar',
@@ -183,7 +183,7 @@
                     }]
                 },
                 options: {
-                    indexAxis: 'y', // Make it horizontal
+                    indexAxis: 'y', 
                     responsive: true,
                     scales: {
                         x: {
@@ -196,7 +196,7 @@
                     },
                     plugins: {
                         legend: {
-                            display: false // Hide legend for single dataset
+                            display: false 
                         }
                     }
                 }
@@ -204,4 +204,5 @@
         });
     </script>
 </body>
+
 </html>
