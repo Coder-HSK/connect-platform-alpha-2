@@ -12,7 +12,7 @@
    
 </head>
 <body class="flex flex-col">
-   <!-- Navigation Bar -->
+   
     <nav class="navbar">
         <div class="container">
             <div class="logo">
@@ -27,7 +27,7 @@
             </div>
         </div>
     </nav>
-    <!-- Main Content -->
+   
     <main class="flex-grow flex flex-col p-4 md:p-8">
         <header class="text-center text-white mb-10 max-w-4xl mx-auto">
             <h1 class="text-3xl md:text-4xl font-bold">Applicants</h1>
@@ -35,7 +35,7 @@
         </header>
         
         <div class="main-layout">
-            <!-- Filter Sidebar -->
+            
             <aside class="filter-sidebar glass-card">
                 <h2 class="section-title">Filters</h2>
                 <div class="applicant-list">
@@ -83,11 +83,11 @@
                 <button class="btn-secondary" id="apply-filters">Apply Filters</button>
             </aside>
             
-            <!-- Applicant List -->
+            
             <div class="applicant-list">
                 <p id="no-results" class="text-center text-gray-400 text-lg hidden">No applicants match the current filters.</p>
                 
-                <!-- Sample Applicant 1 -->
+                
                 <div class="applicant-card glass-card" data-job="swe" data-status="new">
                     <div class="flex justify-between items-start">
                         <div>
@@ -99,7 +99,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 16, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- Sample Applicant 2 -->
+               
                 <div class="applicant-card glass-card" data-job="swe" data-status="review">
                     <div class="flex justify-between items-start">
                         <div>
@@ -111,7 +111,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 15, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- Sample Applicant 3 -->
+                
                 <div class="applicant-card glass-card" data-job="pm" data-status="new">
                     <div class="flex justify-between items-start">
                         <div>
@@ -123,7 +123,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 16, 2025 | Graduation: Dec 2025</p>
                 </div>
-                <!-- Sample Applicant 4 -->
+                
                 <div class="applicant-card glass-card" data-job="da" data-status="interview">
                     <div class="flex justify-between items-start">
                         <div>
@@ -135,7 +135,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 12, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- Sample Applicant 5 -->
+           
                 <div class="applicant-card glass-card" data-job="swe" data-status="interview">
                     <div class="flex justify-between items-start">
                         <div>
@@ -147,7 +147,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 11, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- Sample Applicant 6 -->
+                
                 <div class="applicant-card glass-card" data-job="pm" data-status="review">
                     <div class="flex justify-between items-start">
                         <div>
@@ -159,7 +159,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 14, 2025 | Graduation: May 2027</p>
                 </div>
-                <!-- Sample Applicant 7 -->
+                
                 <div class="applicant-card glass-card" data-job="da" data-status="new">
                     <div class="flex justify-between items-start">
                         <div>
@@ -171,7 +171,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 17, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- Sample Applicant 8 -->
+               
                 <div class="applicant-card glass-card" data-job="swe" data-status="rejected">
                     <div class="flex justify-between items-start">
                         <div>
@@ -183,7 +183,7 @@
                     </div>
                     <p class="text-gray-300 mt-3 text-sm">Applied: Nov 10, 2025 | Graduation: May 2026</p>
                 </div>
-                <!-- ... add 4 more ... -->
+                
                 <div class="applicant-card glass-card" data-job="da" data-status="review">
                     <div class="flex justify-between items-start">
                         <div>
@@ -231,7 +231,7 @@
             </div>
         </div>
     </main>
-    <!-- Footer -->
+   
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -266,11 +266,11 @@
 
     <script>
         document.getElementById('apply-filters').addEventListener('click', () => {
-            // Get selected jobs
+           
             const jobFilters = Array.from(document.querySelectorAll('input[name="job-filter"]:checked')).map(cb => cb.value);
             const showAllJobs = jobFilters.includes('all');
             
-            // Get selected statuses
+           
             const statusFilters = Array.from(document.querySelectorAll('input[name="status-filter"]:checked')).map(cb => cb.value);
             const showAllStatus = statusFilters.includes('all');
 
@@ -295,7 +295,7 @@
             document.getElementById('no-results').style.display = visibleCount === 0 ? 'block' : 'none';
         });
 
-        // Logic for 'All' checkboxes
+        
         document.getElementById('filter-job-all').addEventListener('change', (e) => {
             document.querySelectorAll('input[name="job-filter"]').forEach(cb => {
                 if (cb.id !== 'filter-job-all') cb.checked = false;
@@ -309,7 +309,7 @@
             if (!e.target.checked) e.target.checked = true; // Prevent unchecking "All"
         });
 
-        // Uncheck 'All' if another box is checked
+        
         document.querySelectorAll('input[name="job-filter"]:not(#filter-job-all)').forEach(cb => {
             cb.addEventListener('change', () => {
                 if (cb.checked) document.getElementById('filter-job-all').checked = false;
@@ -323,4 +323,5 @@
 
     </script>
 </body>
+
 </html>
